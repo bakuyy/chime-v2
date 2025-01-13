@@ -134,4 +134,4 @@ REST_FRAMEWORK = {
     ),
 }
 
-AUTH_USER_MODEL = "auth_app.CustomUser"
+# AUTH_USER_MODEL = "auth_app.CustomUser"
