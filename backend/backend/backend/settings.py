@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "music_app",
     "auth_app",
-    "interactions_app"
+    "interactions_app",
     "rest_framework",
 ]
 
