@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
+import uuid
 
 
 # Create your models here.
@@ -10,9 +11,11 @@ class Hashtag(models.Model):
 class Song(models.Model):
     song_name=models.CharField(max_length=100)
     artist_name = models.CharField(max_length=50)
-    genre = models.CharField(max_length=200, blank=True)
+    genre = models.JSONField(blank=True, default=list)
     hashtags = models.JSONField(blank=True, default=list)
-    audio_file = models.FileField()
+    audio_file = models.FileField(upload_to='songs/')   
+    def __str__(self):
+        return f"{self.song_name} by {self.artist_name}"
 
 class Playlist(models.Model):
     title = models.CharField(max_length=100)
