@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import "../../../styling/Home.css"
 import PublicNavbar from '../../components/auth/PublicNavbar';
 
-
 import HomePageGirl from "../../assets/images/HomePageGirl.png"
 
 const Home: React.FC = () => {
@@ -20,7 +19,7 @@ const Home: React.FC = () => {
         <div>
             <div className='home-title'>the <span className="music-note">♫</span> world at your fingertips.</div>
             <div className='home-subtitle'>a tinder-like experience on your music</div>
-            <div className='home-text' onClick={handleClick}>start swiping <span className="arrow">→</span></div>
+            <div className='home-text' onClick={handleClick}>start swiping →</div>
         </div>
         </div>
 

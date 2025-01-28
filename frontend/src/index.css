@@ -18,19 +18,20 @@
 
 
 body {
-  background: radial-gradient(#f4ecec, #ffdede,#f47c7c);	background-size: 400% 400%;
-	animation: gradient 30s ease infinite;
-	height: 100vh;
+  background: linear-gradient(140deg,#ffa2a2,#fcefef,#ffa2a2);
+  background-size: 180% 180%;
+  animation: gradient 18s ease infinite;
 }
 
 @keyframes gradient {
-	0% {
-		background-position: 0% 50%;
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
-}
+

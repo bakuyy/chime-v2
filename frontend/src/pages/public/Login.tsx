@@ -1,9 +1,13 @@
 import React,{useState} from 'react';
+import PublicNavbar from '../../components/auth/PublicNavbar';
+import CallToAction from "../../assets/images/CallToAction.png"
+
+
 
 const Login: React.FC = () => {
   return (
     <div>
-        login
+        <PublicNavbar/>
     </div>
   );
 };
