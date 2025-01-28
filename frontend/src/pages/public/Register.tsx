@@ -1,7 +1,9 @@
 import React from 'react';
 import PublicNavbar from '../../components/auth/PublicNavbar'
-import CallToAction from "../../assets/images/CallToAction.png"
 import "../../../styling/Register.css"
+import LoginForm from '../../components/auth/LoginForm';
+
+import CallToAction from "../../assets/images/CallToAction.png"
 
 
 
@@ -11,6 +13,7 @@ const Register: React.FC = () => {
         <PublicNavbar/>
         <div className='login-container'>
             <img className='login-img' src={CallToAction}/>
+            <LoginForm route="/api/user/register/" method="register"/>
 
         </div>
         

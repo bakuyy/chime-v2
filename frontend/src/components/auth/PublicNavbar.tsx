@@ -12,7 +12,7 @@ interface NavItem {
 const PublicNavbar: React.FC = () => {
   const links: NavItem[]= [
     { title: "login", id: "login", link: "/login" },
-    { title: "register", id: "register", link: "/register" },
+    // { title: "register", id: "register", link: "/register" },
   ]
 
   const handleClick = () => {}
