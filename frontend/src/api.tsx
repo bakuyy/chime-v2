@@ -10,17 +10,21 @@ const api = axios.create({
 })
 
 api.interceptors.request.use(
-    //before requests are sent, interceptors check for a token in our local storage
-  (config) => {
-    const token = localStorage.getItem(ACCESS_TOKEN);
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}` //if token exists, it adds to Authorization header as Bearer token
+    (config) => {
+      // Check if the request URL is the register route and do not add the Authorization header
+      if (config.url && config.url.includes('/auth-app/register/')) {
+        delete config.headers.Authorization;
+      } else {
+        const token = localStorage.getItem(ACCESS_TOKEN);
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
+        }
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
     }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error) //rejects
-  }
-)
+  );
 
 export default api

@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     "auth_app",
     "interactions_app",
     "rest_framework",
+    'corsheaders',
+
 ]
 
 MIDDLEWARE = [
@@ -51,6 +53,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = "backend.urls"
@@ -134,5 +138,14 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
 }
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173', 
+]
+
+CORS_ALLOW_HEADERS = [
+    'content-type',
+    'authorization',  
+]
 
 # AUTH_USER_MODEL = "auth_app.CustomUser"

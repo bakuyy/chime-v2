@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import {Routes,Route, Navigate} from "react-router-dom"
+import {Routes,Route} from "react-router-dom"
 import Login from "../src/pages/public/Login"
 import Register from './pages/public/Register'
 import NotFound from './pages/NotFound'

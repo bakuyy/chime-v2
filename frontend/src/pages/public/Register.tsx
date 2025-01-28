@@ -13,7 +13,7 @@ const Register: React.FC = () => {
         <PublicNavbar/>
         <div className='login-container'>
             <img className='login-img' src={CallToAction}/>
-            <LoginForm route="/api/user/register/" method="register"/>
+            <LoginForm route="/auth-app/register/" method="register"/>
 
         </div>
         
