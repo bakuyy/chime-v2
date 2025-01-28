@@ -7,7 +7,7 @@ const SongMatches: React.FC = () => {
 
   return (
     <div className='playlists'>
-        temp
+        Playlists will load here...
 
     </div>
   );

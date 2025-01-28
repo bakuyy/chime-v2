@@ -1,35 +1,27 @@
 from rest_framework import serializers
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_201_CREATED
 from .models import UserInteraction
+from rest_framework.permissions import AllowAny
+from rest_framework.decorators import api_view, permission_classes
+from django.views.decorators.csrf import csrf_exempt
 
 class UserInteractionSerializer(serializers.ModelSerializer):
     class Meta:
-        interaction = UserInteraction
-        fields = ["user","song","interaction_type", "timestamp"]
+        model = UserInteraction
+        fields = ["song_id", "artist_name","genre", "interaction_type"]
 
-from django.shortcuts import render
-from django.http import JsonResponse
-from .models import UserInteraction
-import json
-
-# Create your views here.
-
-#only post method for now (since you can't "unlike")
+@permission_classes([AllowAny])
+@api_view(['POST'])
 def list_create_interactions(request):
-    if request.method== 'POST':
-        body = json.loads(request.body)
+    if request.method == 'POST':
+        serializer = UserInteractionSerializer(data=request.data)
 
-    #extracting data from request body
-    user_id = body.get("user")
-    song_id = body.get("song")
-    interaction_type = body.get("interaction_type")
+        # validate incoming data
+        if serializer.is_valid():
+            interaction = serializer.save()
+            return Response({"id": interaction.id}, status=HTTP_201_CREATED)
 
-    #validate
-    if not user_id or not song_id or not interaction_type:
-        return JsonResponse({"error": "missing field"}, status = 400)
-    
-    interaction = UserInteraction.objects.create(
-        user_id=user_id,
-        song_id=song_id,
-        interaction_type= interaction_type
-    )
-    return JsonResponse({"id":interaction.id}, status=201)
+        # error for failed validation
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)

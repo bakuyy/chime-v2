@@ -1,19 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 from music_app.models import Song
-# Create your models here.
-
-# class UserInteraction(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     # when the reference object is deleted, so are the objects that reference to it
-#     song = models.ForeignKey(Song, on_delete=models.CASCADE)
-#     interaction_type = ["chime","like","dislike"]
-#     timestamp = models.DateTimeField()
 
 class UserInteraction(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
     song_id = models.ForeignKey(Song, on_delete=models.CASCADE)
-    timestamp = models.DateTimeField()
-    interaction_type = ["right","left"]
-    metadata = models.JSONField()
+    artist_name = models.CharField(max_length=50, default='Unknown Artist')  
+    genre = models.JSONField(blank=True, default=list)
+    interaction_type =  models.CharField(max_length=50, default='')  
+    # metadata = models.JSONField()
 

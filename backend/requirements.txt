@@ -8,3 +8,8 @@ pytz
 sqlparse
 psycopg2-binary
 Python-dotenv
+scikit-learn
+pandas
+numpy
+scipy
+

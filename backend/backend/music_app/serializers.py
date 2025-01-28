@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from .models import SongSpecs, Playlist, Song, Hashtag
+from django.conf import settings
+
 
 class HashtagSerializer(serializers.ModelSerializer):
     class Meta:
@@ -23,6 +25,10 @@ class SongSerializer(serializers.ModelSerializer):
                 song.hashtags.add(hashtag)
 
             return song
+        def get_audio_file(self, obj):
+        # Return the full URL to the audio file
+            return settings.MEDIA_URL + 'songs/' + obj.audio_file.name.split('songs/')[1]
+
 
 
 class SongSpecsSerializer(serializers.ModelSerializer):

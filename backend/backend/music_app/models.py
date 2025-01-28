@@ -10,7 +10,7 @@ class Song(models.Model):
     artist_name = models.CharField(max_length=50)
     genre = models.JSONField(blank=True, default=list)
     hashtags = models.JSONField(blank=True, default=list)
-    audio_file = models.FileField(upload_to='songs/')   
+    audio_file = models.FileField(upload_to='songs/')    
     def __str__(self):
         return f"{self.song_name} by {self.artist_name}"
 
