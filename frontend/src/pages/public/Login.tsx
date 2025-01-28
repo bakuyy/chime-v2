@@ -17,7 +17,7 @@ const Login: React.FC = () => {
         <div className='login-container'>
             <img className='login-img' src={CallToAction}/>
             <div>
-            <LoginForm route='/api/token/' method='login'/>
+            <LoginForm route='/auth-app/token/' method='login'/>
             
             <div className="login-blurb">
                         <div className="login-text">Don't have an account yet?</div>
