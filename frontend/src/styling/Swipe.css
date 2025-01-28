@@ -1,0 +1,14 @@
+.swipe-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 10px;
+  }
+  
+  .audio-image {
+    width: 35vw;
+    height: auto;
+    object-fit: contain;
+  }
+  

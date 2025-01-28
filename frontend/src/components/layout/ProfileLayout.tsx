@@ -104,7 +104,7 @@ const ProfileLayout: React.FC = () => {
           'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(profileData),
-      });
+      })
 
       if (!response.ok) {
         const textResponse = await response.text();
@@ -117,7 +117,7 @@ const ProfileLayout: React.FC = () => {
     } catch (error) {
       setError(error instanceof Error ? error.message : 'Unknown error');
     }
-  };
+  }
 
   if (loading) {
     return <div>Loading...</div>;
@@ -125,7 +125,6 @@ const ProfileLayout: React.FC = () => {
 
   return (
     <div className="profile-layout">
-      {error && <div className="error-message">{error}</div>}
       <div className="profile-form">
         <div className="form-group">
           <label  htmlFor="username"><div className="username">{username}</div></label>
@@ -134,14 +133,14 @@ const ProfileLayout: React.FC = () => {
 
 
         <div className="form-group">
-          <label htmlFor="preferredGenres">Preferred Genres</label>
+          <label htmlFor="preferredGenres">Genres</label>
           <input
             type="text"
             id="preferredGenres"
             value={genreInput}
             onChange={handleGenreChange}
             className="input-field"
-            placeholder="Enter genres (comma separated)"
+            placeholder="+"
           />
           <button
             onClick={handleAddGenres}

@@ -1,0 +1,84 @@
+.song-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent; 
+    padding: 20px;
+    width: 20vw;
+    margin: 20px auto;
+    color: #333; 
+    text-align: left;
+  }
+  
+  .song-details {
+    margin-bottom: 20px;
+    text-align: left;
+    
+  }
+  .song-title{
+    font-family: "Varela Round";
+    font-size: 3rem;
+    color: black;
+    font-weight: bold;
+    animation: glow 1s ease-in-out infinite alternate;
+
+  }
+
+  .song-artist{
+    font-family: "Varela Round";
+    font-size: 1.5rem;
+    color:#B71D7E ;
+    font-weight: bold;
+
+
+  }
+  .song-hashtags{
+    font-family: "Varela Round";
+    font-size: 1rem;
+
+    animation: glow 1s ease-in-out infinite alternate;
+    font-weight: bold;
+  }
+
+
+@keyframes glow {
+    from {
+      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073,;
+    }
+    
+    to {
+      text-shadow: 0 0 20px #ef6565, 0 0 30px #ff4da6 ;
+    }
+  }
+  .song-details p {
+    margin: 8px 0;
+    font-size: 16px;
+  }
+  
+  h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+
+ 
+  button {
+    background-color: #5c6bc0;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #3f51b5;
+  }
+  
+  audio {
+    margin-top: 10px;
+    width: 100%;
+  }
