@@ -1,6 +1,6 @@
 import React from "react";
 import { Link,useNavigate } from "react-router-dom";
-import "../../../styling/ProtectedNavbar.css";
+import "../../styling/ProtectedNavbar.css";
 
 interface NavItem {
     title: string;
@@ -18,9 +18,9 @@ const ProtectedNavbar: React.FC = () => {
     }
 
   const links: NavItem[]= [
+    { title: "swipe", link: "/chime" },
     { title: "profile", link: "/profile" },
     { title: "share", link: "/share" },
-    { title: "swipe", link: "/chime" },
 
   ]
 

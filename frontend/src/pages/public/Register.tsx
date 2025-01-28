@@ -1,6 +1,6 @@
 import React from 'react';
 import PublicNavbar from '../../components/auth/PublicNavbar'
-import "../../../styling/Register.css"
+import "../../styling/Register.css"
 import LoginForm from '../../components/auth/LoginForm';
 
 import CallToAction from "../../assets/images/CallToAction.png"

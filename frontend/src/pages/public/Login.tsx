@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import CallToAction from "../../assets/images/CallToAction.png"
 import LoginForm from '../../components/auth/LoginForm';
-import "../../../styling/Login.css"
+import "../../styling/Login.css"
 
 
 const Login: React.FC = () => {

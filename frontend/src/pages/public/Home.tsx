@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import "../../../styling/Home.css"
+import "../../styling/Home.css"
 import PublicNavbar from '../../components/auth/PublicNavbar';
 
 import HomePageGirl from "../../assets/images/HomePageGirl.png"

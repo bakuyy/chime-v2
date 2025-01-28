@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../../api';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../../constants';
-import "../../../styling/LoginForm.css"
+import "../../styling/LoginForm.css"
 import Google from "../../assets/images/GoogleLogo.png"
 import { FaArrowRightLong } from "react-icons/fa6";
 

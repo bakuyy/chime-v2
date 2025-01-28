@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../../../styling/PublicNavbar.css";
+import "../../styling/PublicNavbar.css";
 
 interface NavItem {
     title: string;
