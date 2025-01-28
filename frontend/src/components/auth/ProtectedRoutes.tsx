@@ -53,7 +53,7 @@ function ProtectedRoute({ children }: ProtectedRouteProps) {
       if (tokenExpiration < now) {
         await refreshToken(); // token expired, refresh it
       } else {
-        setIsAuthorized(true); // valid token, proceed to protected content
+        setIsAuthorized(true); // if its a valid token, proceed to protected content
       }
     } catch (error) {
       console.error("error decoding token:", error);

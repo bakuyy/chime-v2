@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     "music_app",
     "auth_app",
     "recommender",
-    "userprofile_app",
     "rest_framework",
     'corsheaders',
 

@@ -1,0 +1,134 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7fb;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    height: 100vh;
+    padding-left: 20px;
+}
+
+.profile-layout {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    height: 100%;
+    width: 100%;
+    padding-top: 20px;
+}
+
+.profile-form {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.username {
+    font-size: 2rem;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.profile-form h1 {
+    text-align: left;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-size: 1em;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+    display: block;
+    text-align: left;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #E7CCCC;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: transparent;
+    color: black;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.add-genre-button {
+    color: black;
+    background-color: transparent;
+    border: none;
+}
+
+.save-button {
+    margin-top: 10px;
+    width: 40%;
+    padding: 12px;
+    background-color: #D91B68;
+    color: white;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.save-button:hover {
+    background-color: #c2185b;
+}
+
+.genres-list {
+    margin-top: 10px;
+    color: black;
+    background-color: #f7a4c5;
+    border-radius: 10px;
+    width: 100%;
+    text-align: center;
+
+}
+
+.genres-list ul {
+    padding: 0;
+    list-style-type: none;
+    
+}
+
+.genres-list li {
+    display: inline-block;
+    margin: 5px;
+    text-align: center;
+
+}
+
+.genre {
+    text-align: center;
+
+}
+
+.error-message {
+    color: red;
+    font-size: 1em;
+    text-align: center;
+    margin-bottom: 20px;
+}

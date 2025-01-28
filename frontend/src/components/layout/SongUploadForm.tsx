@@ -1,6 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
-import api from "../../api";
+import React, { useState, ChangeEvent } from "react";
 import "../../styling/SongUploadForm.css";
 
 import { FaArrowRightLong } from "react-icons/fa6";

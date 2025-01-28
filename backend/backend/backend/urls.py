@@ -10,6 +10,6 @@ urlpatterns = [
     path("auth-app/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("api-auth/", include("rest_framework.urls")),
     path("auth-app/", include("auth_app.urls")),
-    path("music-app/", include("music_app.urls"))
+    path("music-app/", include("music_app.urls")),
 
 ]
