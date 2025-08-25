@@ -1,160 +1,108 @@
-import React, { useState, ChangeEvent } from "react";
-import "../../styling/SongUploadForm.css";
+import React, { useState } from 'react';
+import { FaArrowRightLong } from 'react-icons/fa6';
 
-import { FaArrowRightLong } from "react-icons/fa6";
+const SongUploadForm = () => {
+  const [file, setFile] = useState<File | null>(null);
+  const [songName, setSongName] = useState('');
+  const [artistName, setArtistName] = useState('');
+  const [genre, setGenre] = useState('');
+  const [hashtags, setHashtags] = useState('');
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle form submission logic here
+    console.log('Form submitted:', { file, songName, artistName, genre, hashtags });
+  };
 
-interface SongFormData {
-  songName: string;
-  artistName: string;
-  genre: string[];
-  hashtags: string[];
-  audioFile: File | null;
-}
-
-const SongUploadForm: React.FC = () => {
-
-  const [formData, setFormData] = useState<SongFormData>({
-    songName: "",
-    artistName: "",
-    genre: [],
-    hashtags: [],
-    audioFile: null,
-  });
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-
-    //handle comma-separated fields : genres and hashtags
-    if (name === "genre" || name === "hashtags") {
-      const newValue = value.split(",").map((item) => item.trim());
-      // splits into arrays and removes whitespaces
-      setFormData((prev) => ({ ...prev, [name]: newValue }));
-      //updates formData w/new values of genre/hashtags
-      // create a shallow copy of our object
-      // prev = previous state of formData
-      // { ...prev, [name]: newValue } creates new object where
-      // ...prev spreads all properties of prev object into the new object
-      // it copies all properties from previous formData state into new object, so all other fields stay the same
-      // [name]:newValue sets property with key name to new value
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setFile(e.target.files[0]);
     }
   };
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    
-    // check if files is not null and has a length greater than 0
-    if (files && files.length > 0) {
-      setFormData((prev) => ({ ...prev, audioFile: files[0] }));
-    }
-  }
-  
-  
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const formDataObj = new FormData()
-    formDataObj.append('song_name', formData.songName)
-    formDataObj.append('artist_name', formData.artistName)
-    formDataObj.append('genre', JSON.stringify(formData.genre))  // genre and hashtags 
-    formDataObj.append('hashtags', JSON.stringify(formData.hashtags))
-    if (formData.audioFile) formDataObj.append('audio_file', formData.audioFile)
-
-    try {
-        const response = await fetch('http://127.0.0.1:8000/music-app/upload/', {
-            method: 'POST',
-            body: formDataObj,
-          })
-          if (response.ok) {
-            // if successful, log data
-            const data = await response.json();
-            console.log('succesful upload:', data);
-          } else {
-            // H
-            const errorData = await response.json();
-            console.error('error uploading song:', errorData);
-          }
-        } catch (error) {
-          console.error('error:', error);
-        }
-
-        setFormData({
-            songName: "",
-            artistName: "",
-            genre: [],
-            hashtags: [],
-            audioFile: null,
-          });
-        
-      }
-  
-      return (
-        <div className="form-container">
-          <form className="upload-form" onSubmit={handleSubmit}>
-            <h1>Upload Song</h1>
-            <div className="form-group">
-              <input
-                type="text"
-                id="songName"
-                name="songName"
-                value={formData.songName}
-                onChange={handleChange}
-                placeholder="Song name"
-                required
-              />
-            </div>
-            <div className="form-group">
-              <input
-                type="text"
-                id="artistName"
-                name="artistName"
-                value={formData.artistName}
-                onChange={handleChange}
-                placeholder="Artist(s) name"
-                required
-              />
-            </div>
-            <div className="form-group">
-              <input
-                type="text"
-                id="genre"
-                name="genre"
-                value={formData.genre.join(", ")}
-                onChange={handleChange}
-                placeholder="Genre(s)"
-              />
-            </div>
-            <div className="form-group">
-              <input
-                type="text"
-                id="hashtags"
-                name="hashtags"
-                value={formData.hashtags.join(", ")}
-                onChange={handleChange}
-                placeholder="Hashtag(s)"
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="audioFile" className="file-label">
-                Choose Audio File
-              </label>
-              <input
-                type="file"
-                id="audioFile"
-                name="audioFile"
-                onChange={handleFileChange}
-                accept="audio/*"
-                required
-              />
-            </div>
-            <button type="submit" className="submit-btn">
-
-            <FaArrowRightLong/>
-            </button>
-          </form>
+  return (
+    <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100 max-w-2xl w-full">
+      <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Share Your Music</h2>
+      
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Upload Audio File
+          </label>
+          <input
+            type="file"
+            accept="audio/*"
+            onChange={handleFileChange}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+            required
+          />
         </div>
-      );
-    };
-    
-    export default SongUploadForm
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Song Name
+          </label>
+          <input
+            type="text"
+            value={songName}
+            onChange={(e) => setSongName(e.target.value)}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+            placeholder="Enter song name"
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Artist Name
+          </label>
+          <input
+            type="text"
+            value={artistName}
+            onChange={(e) => setArtistName(e.target.value)}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+            placeholder="Enter artist name"
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Genre
+          </label>
+          <input
+            type="text"
+            value={genre}
+            onChange={(e) => setGenre(e.target.value)}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+            placeholder="Enter genre"
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Hashtags
+          </label>
+          <input
+            type="text"
+            value={hashtags}
+            onChange={(e) => setHashtags(e.target.value)}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+            placeholder="Enter hashtags (comma separated)"
+          />
+        </div>
+
+        <button
+          type="submit"
+          className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-lg font-medium hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center justify-center gap-2"
+        >
+          <span>Upload Song</span>
+          <FaArrowRightLong />
+        </button>
+      </form>
+    </div>
+  );
+};
+
+export default SongUploadForm;

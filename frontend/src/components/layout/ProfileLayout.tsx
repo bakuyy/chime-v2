@@ -1,229 +1,170 @@
-import React, { useState, useEffect } from 'react';
-import "../../styling/ProfileLayout.css";
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { IoAddCircleOutline, IoSaveOutline } from 'react-icons/io5';
-import { ACCESS_TOKEN } from '../../constants';
 
-interface Profile {
-  preferredGenres: string[];
+interface Playlist {
+  id: number;
+  name: string;
+  songs: string[];
 }
 
 const ProfileLayout: React.FC = () => {
-  const initialProfile: Profile = {
-    preferredGenres: [],
-  };
+  const [playlists, setPlaylists] = useState<Playlist[]>([
+    { id: 1, name: 'Favorites', songs: ['Song 1', 'Song 2', 'Song 3'] },
+    { id: 2, name: 'Chill Vibes', songs: ['Song 4', 'Song 5'] },
+    { id: 3, name: 'Workout Mix', songs: ['Song 6', 'Song 7', 'Song 8', 'Song 9'] }
+  ]);
+  const [editingPlaylist, setEditingPlaylist] = useState<number | null>(null);
+  const [newPlaylistName, setNewPlaylistName] = useState('');
+  const [showAddForm, setShowAddForm] = useState(false);
 
-  const [profileData, setProfileData] = useState<Profile>(initialProfile);
-  const [genreInput, setGenreInput] = useState<string>('');
-  const [username, setUsername] = useState<string>('');
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
-
-  const getAuthToken = () => localStorage.getItem(ACCESS_TOKEN);
-
-  useEffect(() => {
-    const fetchProfileAndUsername = async () => {
-      setLoading(true);
-      setError(null);
-  
-      try {
-        const token = getAuthToken();
-        if (!token) {
-          setError('Authorization token not found.');
-          setLoading(false);
-          return;
-        }
-  
-        const response = await fetch('http://127.0.0.1:8000/auth-app/user-profile/', {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
-  
-        if (!response.ok) {
-          const errorData = await response.text();
-          throw new Error(`Failed to fetch profile: ${errorData}`);
-        }
-  
-        const data = await response.json();
-        console.log("API Response Data:", data);
-  
-        const { username, preferred_genres } = data;
-  
-        setUsername(username);
-        setProfileData({
-          preferredGenres: Array.isArray(preferred_genres) ? preferred_genres : [],
-        });
-      } catch (error) {
-        setError(error instanceof Error ? error.message : 'Unknown error');
-      } finally {
-        setLoading(false);
-      }
-    };
-  
-    fetchProfileAndUsername();
-  }, []);
-
-  const handleGenreChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setGenreInput(e.target.value);
-  };
-
-  const handleAddGenres = () => {
-    const newGenres = genreInput
-      .split(',')
-      .map((genre) => genre.trim())
-      .filter((genre) => genre.length > 0);
-
-    setProfileData((prev) => ({
-      ...prev,
-      preferredGenres: [...new Set([...prev.preferredGenres, ...newGenres])],
-    }));
-
-    setGenreInput('');
-  };
-
-  const handleRemoveGenre = (genreToRemove: string) => {
-    setProfileData((prev) => ({
-      ...prev,
-      preferredGenres: prev.preferredGenres.filter(genre => genre !== genreToRemove),
-    }));
-  };
-
-  const handleSave = async () => {
-    const token = getAuthToken();
-    if (!token) {
-      setError('Authorization token not found.');
-      return;
-    }
-
-    setSaveStatus('saving');
-
-    try {
-      const response = await fetch('http://127.0.0.1:8000/auth-app/user-profile/', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify(profileData),
-      });
-
-      if (!response.ok) {
-        const textResponse = await response.text();
-        throw new Error(`Error saving the profile: ${textResponse}`);
-      }
-
-      setSaveStatus('success');
-      setTimeout(() => setSaveStatus('idle'), 2000);
-    } catch (error) {
-      setError(error instanceof Error ? error.message : 'Unknown error');
-      setSaveStatus('error');
-      setTimeout(() => setSaveStatus('idle'), 2000);
+  const handleAddPlaylist = () => {
+    if (newPlaylistName.trim()) {
+      const newPlaylist: Playlist = {
+        id: Date.now(),
+        name: newPlaylistName.trim(),
+        songs: []
+      };
+      setPlaylists([...playlists, newPlaylist]);
+      setNewPlaylistName('');
+      setShowAddForm(false);
     }
   };
 
-  if (loading) {
-    return (
-      <div className="profile-loading">
-        <div className="loading-spinner"></div>
-        <p>Loading your profile...</p>
-      </div>
-    );
-  }
+  const handleEditPlaylist = (id: number) => {
+    setEditingPlaylist(id);
+    const playlist = playlists.find(p => p.id === id);
+    if (playlist) {
+      setNewPlaylistName(playlist.name);
+    }
+  };
+
+  const handleSavePlaylist = (id: number) => {
+    if (newPlaylistName.trim()) {
+      setPlaylists(playlists.map(p => 
+        p.id === id ? { ...p, name: newPlaylistName.trim() } : p
+      ));
+      setEditingPlaylist(null);
+      setNewPlaylistName('');
+    }
+  };
+
+  const handleDeletePlaylist = (id: number) => {
+    setPlaylists(playlists.filter(p => p.id !== id));
+  };
 
   return (
-    <motion.div 
-      className="profile-layout"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
-      <motion.div 
-        className="profile-card"
-        initial={{ y: 20 }}
-        animate={{ y: 0 }}
-        transition={{ delay: 0.2 }}
-      >
-        <motion.div 
-          className="profile-header"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-        >
-          <h1 className="username">{username}</h1>
-          {error && <p className="error-message">{error}</p>}
-        </motion.div>
-
-        <motion.div 
-          className="genre-section"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
-        >
-          <h2>Add Music Preferences</h2>
-          <div className="genre-input-container">
-            <input
-              type="text"
-              value={genreInput}
-              onChange={handleGenreChange}
-              className="genre-input"
-              placeholder="Add genres (comma-separated)"
-            />
-            <motion.button
-              className="add-genre-button"
-              onClick={handleAddGenres}
-              disabled={genreInput.trim() === ''}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <IoAddCircleOutline />
-            </motion.button>
-          </div>
-
-          <motion.div 
-            className="genres-grid"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-          >
-            <AnimatePresence>
-              {profileData.preferredGenres.map((genre, index) => (
-                <motion.div
-                  key={genre}
-                  className="genre-tag"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.8 }}
-                  whileHover={{ scale: 1.05 }}
-                  onClick={() => handleRemoveGenre(genre)}
-                >
-                  {genre}
-                  <span className="remove-genre">×</span>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
-        </motion.div>
-
+    <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
+      <div className="flex items-center justify-between mb-8">
+        <h2 className="text-3xl font-bold text-gray-900">My Playlists</h2>
         <motion.button
-          className={`save-button ${saveStatus}`}
-          onClick={handleSave}
-          disabled={saveStatus === 'saving'}
+          className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg font-medium hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+          onClick={() => setShowAddForm(true)}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
         >
-          <IoSaveOutline />
-          {saveStatus === 'saving' ? 'Saving...' : 
-           saveStatus === 'success' ? 'Saved!' : 
-           saveStatus === 'error' ? 'Error!' : 'Save Changes'}
+          <IoAddCircleOutline className="text-xl" />
+          Add Playlist
         </motion.button>
-      </motion.div>
-    </motion.div>
+      </div>
+
+      <AnimatePresence>
+        {showAddForm && (
+          <motion.div
+            className="mb-6 p-6 bg-gray-50 rounded-xl border border-gray-200"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+          >
+            <div className="flex gap-4">
+              <input
+                type="text"
+                value={newPlaylistName}
+                onChange={(e) => setNewPlaylistName(e.target.value)}
+                placeholder="Enter playlist name"
+                className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+              />
+              <button
+                className="px-6 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-all duration-200"
+                onClick={handleAddPlaylist}
+              >
+                Create
+              </button>
+              <button
+                className="px-6 py-3 bg-gray-500 text-white rounded-lg font-medium hover:bg-gray-600 transition-all duration-200"
+                onClick={() => {
+                  setShowAddForm(false);
+                  setNewPlaylistName('');
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {playlists.map((playlist) => (
+          <motion.div
+            key={playlist.id}
+            className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 border border-gray-200 hover:shadow-lg transition-all duration-300"
+            whileHover={{ y: -5 }}
+            layout
+          >
+            <div className="flex items-center justify-between mb-4">
+              {editingPlaylist === playlist.id ? (
+                <div className="flex gap-2 flex-1">
+                  <input
+                    type="text"
+                    value={newPlaylistName}
+                    onChange={(e) => setNewPlaylistName(e.target.value)}
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                  <button
+                    className="px-4 py-2 bg-green-600 text-white rounded-lg text-sm hover:bg-green-700 transition-all duration-200"
+                    onClick={() => handleSavePlaylist(playlist.id)}
+                  >
+                    <IoSaveOutline />
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <h3 className="text-xl font-semibold text-gray-900">{playlist.name}</h3>
+                  <div className="flex gap-2">
+                    <button
+                      className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                      onClick={() => handleEditPlaylist(playlist.id)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-all duration-200"
+                      onClick={() => handleDeletePlaylist(playlist.id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+            
+            <div className="space-y-2">
+              <p className="text-sm text-gray-600">
+                {playlist.songs.length} song{playlist.songs.length !== 1 ? 's' : ''}
+              </p>
+              <div className="max-h-32 overflow-y-auto">
+                {playlist.songs.map((song, index) => (
+                  <div key={index} className="text-sm text-gray-700 py-1 px-2 bg-white rounded-lg">
+                    {song}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </div>
   );
 };
 

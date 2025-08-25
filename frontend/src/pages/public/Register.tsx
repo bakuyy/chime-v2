@@ -1,9 +1,7 @@
 import React from 'react';
 import { motion, easeOut } from 'framer-motion';
 import PublicNavbar from '../../components/auth/PublicNavbar'
-import "../../styling/Register.css"
 import LoginForm from '../../components/auth/LoginForm';
-
 import CallToAction from "../../assets/images/CallToAction.png"
 
 const Register: React.FC = () => {
@@ -53,20 +51,21 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
         <PublicNavbar/>
         <motion.div 
-            className='login-container'
+            className="max-w-6xl mx-auto flex items-center justify-center gap-16 p-6 pt-32"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
         >
             <motion.img 
-                className='login-img' 
+                className='w-1/2 max-w-lg h-auto object-contain rounded-2xl shadow-2xl'
                 src={CallToAction}
                 variants={imageVariants}
+                alt="Call to action"
             />
-            <motion.div variants={itemVariants}>
+            <motion.div className="w-1/2 max-w-md" variants={itemVariants}>
                 <LoginForm route="/auth-app/register/" method="register"/>
             </motion.div>
         </motion.div>

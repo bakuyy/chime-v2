@@ -1,12 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../../styling/PublicNavbar.css";
+import { motion, easeOut } from "framer-motion";
 
 interface NavItem {
     title: string;
     id:string;
     link:string;
-
 }
 
 const PublicNavbar: React.FC = () => {
@@ -16,19 +15,54 @@ const PublicNavbar: React.FC = () => {
   ]
 
   const handleClick = () => {}
+
+  const containerVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: easeOut
+      }
+    }
+  };
+
+  const linkVariants = {
+    hover: { 
+      scale: 1.1,
+      y: -2,
+      transition: { duration: 0.2 }
+    },
+    tap: { 
+      scale: 0.95 
+    }
+  };
+
   return (
-      <div className="navbar-links">
+      <motion.div 
+        className="flex justify-center items-center fixed top-0 left-0 w-full p-5 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
         {links.map(({ title, link }) => (
-          <Link
+          <motion.div
             key={title}
-            to={link}
-            className="navbar-link"
-            onClick={handleClick}
+            variants={linkVariants}
+            whileHover="hover"
+            whileTap="tap"
           >
-            {title}
-          </Link>
+            <Link
+              to={link}
+              className="text-lg font-medium text-gray-800 hover:text-purple-600 transition-colors duration-200 px-6 py-3 rounded-lg hover:bg-gray-50"
+              onClick={handleClick}
+            >
+              {title}
+            </Link>
+          </motion.div>
         ))}
-    </div>
+    </motion.div>
   )
 }
 

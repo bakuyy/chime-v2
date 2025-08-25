@@ -1,6 +1,5 @@
 import React from 'react';
 import { motion, easeOut } from 'framer-motion';
-import "../../styling/Profile.css";
 import ProtectedNavbar from '../../components/layout/ProtectedNavbar';
 import ProfileLayout from '../../components/layout/ProfileLayout';
 import SongMatches from '../../components/layout/SongMatches';
@@ -35,15 +34,15 @@ const Profile: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 pt-24">
         <ProtectedNavbar />
         <motion.div 
-            className="profile-container"
+            className="max-w-7xl mx-auto p-6"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
         >
-            <motion.div variants={itemVariants}>
+            <motion.div className="mb-8" variants={itemVariants}>
                 <ProfileLayout />
             </motion.div>
             <motion.div variants={itemVariants}>

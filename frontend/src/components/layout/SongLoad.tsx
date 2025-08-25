@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import "../../styling/SongLoad.css";
 import { motion, AnimatePresence } from 'framer-motion';
 import { IoHeartOutline, IoHeartDislikeOutline } from 'react-icons/io5';
 import { BsMusicNoteBeamed } from 'react-icons/bs';
@@ -74,9 +73,9 @@ const SongLoad: React.FC = () => {
 
   if (songs.length === 0) {
     return (
-      <div className="loading-container">
-        <BsMusicNoteBeamed className="loading-icon" />
-        <p>Loading songs...</p>
+      <div className="flex flex-col items-center justify-center py-20 text-center">
+        <BsMusicNoteBeamed className="text-6xl text-blue-500 mb-6 animate-pulse" />
+        <p className="text-xl text-gray-600 font-medium">Loading songs...</p>
       </div>
     );
   }
@@ -86,17 +85,17 @@ const SongLoad: React.FC = () => {
   return (
     <AnimatePresence mode="wait">
       <motion.div 
-        className="song-container"
+        className="w-full"
         key={currentSongIndex}
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -50 }}
         transition={{ duration: 0.3 }}
       >
-        <div className="song-card">
-          <div className="song-details">
+        <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
+          <div className="text-left mb-8">
             <motion.h1 
-              className="song-title"
+              className="text-4xl font-bold text-gray-900 mb-4 leading-tight"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
@@ -104,7 +103,7 @@ const SongLoad: React.FC = () => {
               {currentSong.song_name}
             </motion.h1>
             <motion.h2 
-              className="song-artist"
+              className="text-2xl text-gray-600 font-medium mb-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
@@ -113,28 +112,38 @@ const SongLoad: React.FC = () => {
             </motion.h2>
             
             <motion.div 
-              className="song-tags"
+              className="flex flex-wrap gap-3 mb-8"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
             >
               {currentSong.genre.map((genre: string, index: number) => (
-                <span key={index} className="tag genre-tag">{genre}</span>
+                <span key={index} className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-full text-sm font-medium shadow-lg">
+                  {genre}
+                </span>
               ))}
               {currentSong.hashtags.map((tag: string, index: number) => (
-                <span key={index} className="tag hashtag-tag">#{tag}</span>
+                <span key={index} className="px-4 py-2 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-full text-sm font-medium shadow-lg">
+                  #{tag}
+                </span>
               ))}
             </motion.div>
           </div>
 
           <motion.div 
-            className="interaction-buttons"
+            className="flex justify-center gap-10"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
           >
             <motion.button
-              className={`interaction-button dislike-button ${interaction === 'dislike' ? 'active' : ''}`}
+              className={`w-24 h-24 rounded-full border-none flex items-center justify-center text-3xl cursor-pointer transition-all duration-300 shadow-lg hover:shadow-xl relative overflow-hidden ${
+                interaction === 'dislike' ? 'scale-125 shadow-2xl' : ''
+              }`}
+              style={{
+                background: 'linear-gradient(135deg, #74b9ff, #0984e3)',
+                color: 'white'
+              }}
               onClick={() => handleInteraction('dislike')}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
@@ -142,7 +151,13 @@ const SongLoad: React.FC = () => {
               <IoHeartDislikeOutline />
             </motion.button>
             <motion.button
-              className={`interaction-button like-button ${interaction === 'like' ? 'active' : ''}`}
+              className={`w-24 h-24 rounded-full border-none flex items-center justify-center text-3xl cursor-pointer transition-all duration-300 shadow-lg hover:shadow-xl relative overflow-hidden ${
+                interaction === 'like' ? 'scale-125 shadow-2xl' : ''
+              }`}
+              style={{
+                background: 'linear-gradient(135deg, #ff6b6b, #ee5a24)',
+                color: 'white'
+              }}
               onClick={() => handleInteraction('like')}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}

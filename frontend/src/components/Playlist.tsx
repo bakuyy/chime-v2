@@ -1,61 +1,20 @@
 import React from 'react';
-import { FaPlay, FaPause, FaMusic } from 'react-icons/fa';
-import { mockPlaylists } from '../mockData/playlists';
-import './styling/Playlist.css';
 
-interface Song {
-  id: number;
-  title: string;
-  artist: string;
-  genre: string[];
-  hashtags: string[];
-  audioUrl: string;
-}
-
-interface Playlist {
-  id: number;
+interface PlaylistProps {
   name: string;
-  songs: Song[];
+  songs: string[];
 }
 
-const Playlist: React.FC = () => {
+const Playlist: React.FC<PlaylistProps> = ({ name, songs }) => {
   return (
-    <div className="playlist-layout">
-      <div className="playlist-container">
-        <h1 className="playlist-title">Your Playlists</h1>
-        <div className="playlists-grid">
-          {mockPlaylists.map((playlist: Playlist) => (
-            <div key={playlist.id} className="playlist-card">
-              <div className="playlist-header">
-                <div className="playlist-icon">
-                  <FaMusic />
-                </div>
-                <h2 className="playlist-name">{playlist.name}</h2>
-              </div>
-              <div className="songs-list">
-                {playlist.songs.map((song: Song) => (
-                  <div key={song.id} className="song-item">
-                    <div className="song-info">
-                      <h3 className="song-title">{song.title}</h3>
-                      <p className="song-artist">{song.artist}</p>
-                    </div>
-                    <div className="song-tags">
-                      {song.genre.map((genre: string, index: number) => (
-                        <span key={index} className="genre-tag">{genre}</span>
-                      ))}
-                      {song.hashtags.map((hashtag: string, index: number) => (
-                        <span key={index} className="hashtag-tag">{hashtag}</span>
-                      ))}
-                    </div>
-                    <button className="play-button">
-                      <FaPlay />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
+    <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
+      <h3 className="text-xl font-semibold text-gray-900 mb-4">{name}</h3>
+      <div className="space-y-2">
+        {songs.map((song, index) => (
+          <div key={index} className="text-sm text-gray-700 py-2 px-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200">
+            {song}
+          </div>
+        ))}
       </div>
     </div>
   );

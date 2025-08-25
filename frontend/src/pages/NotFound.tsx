@@ -44,33 +44,26 @@ const NotFound: React.FC = () => {
 
   return (
     <motion.div
+        className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-red-50 via-white to-pink-50 p-6"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: '100vh',
-          fontSize: '2rem',
-          fontWeight: 'bold'
-        }}
     >
         <motion.div 
+            className="text-center space-y-8"
             variants={textVariants}
             animate="animate"
         >
             <motion.span
+                className="text-4xl font-bold text-gray-800 block"
                 variants={bounceVariants}
-                style={{ display: 'inline-block' }}
             >
                 not found
             </motion.span>
         </motion.div>
         <motion.div 
             variants={textVariants}
-            style={{ fontSize: '4rem', marginTop: '1rem' }}
+            className="text-8xl font-bold text-purple-500 mt-8"
         >
             404
         </motion.div>

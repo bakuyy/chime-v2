@@ -3,7 +3,6 @@ import { motion, easeOut } from 'framer-motion';
 import ProtectedNavbar from '../../components/layout/ProtectedNavbar';
 import SongLoad from '../../components/layout/SongLoad';
 import MusicPulseAnimation from '../../components/layout/MusicPulseAnimation';
-import "../../styling/Swipe.css";
 
 const Swipe: React.FC = () => {
   const containerVariants = {
@@ -52,25 +51,27 @@ const Swipe: React.FC = () => {
   };
 
   return (
-    <div className="swipe-page" style={{ paddingTop: '100px' }}>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 pt-24">
       <ProtectedNavbar />
       <motion.div 
-        className="swipe-container"
+        className="max-w-7xl mx-auto p-6"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
         <motion.div 
-          className="audio-section"
+          className="flex flex-col lg:flex-row gap-8 items-start"
           variants={audioVariants}
         >
-          <MusicPulseAnimation />
-        </motion.div>
-        <motion.div 
-          className="song-section"
-          variants={sectionVariants}
-        >
-          <SongLoad />
+          <div className="w-full lg:w-1/3">
+            <MusicPulseAnimation />
+          </div>
+          <motion.div 
+            className="w-full lg:w-2/3"
+            variants={sectionVariants}
+          >
+            <SongLoad />
+          </motion.div>
         </motion.div>
       </motion.div>
     </div>

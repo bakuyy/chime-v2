@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, easeOut, easeInOut } from 'framer-motion';
 
 const MusicPulseAnimation: React.FC = () => {
   // Create an array of 8 bars for the music visualization
@@ -7,12 +7,12 @@ const MusicPulseAnimation: React.FC = () => {
 
   const barVariants = {
     animate: (i: number) => ({
-      scaleY: [1, 2, 1],
+      scaleY: [1, 2.5, 1],
       transition: {
-        duration: 0.6,
+        duration: 0.8,
         repeat: Infinity,
-        delay: i * 0.1,
-        ease: "easeInOut"
+        delay: i * 0.15,
+        ease: easeInOut
       }
     })
   };
@@ -24,29 +24,17 @@ const MusicPulseAnimation: React.FC = () => {
       scale: 1,
       transition: {
         duration: 0.8,
-        ease: "easeOut"
+        ease: easeOut
       }
     }
   };
 
   return (
     <motion.div
-      className="music-pulse-container"
+      className="flex items-center justify-center gap-2 p-10 bg-gradient-to-br from-blue-500 via-blue-600 to-purple-600 rounded-3xl shadow-2xl min-h-[200px] min-w-[300px] overflow-hidden relative"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '8px',
-        padding: '40px',
-        // background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        borderRadius: '20px',
-        boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
-        minHeight: '200px',
-        minWidth: '300px'
-      }}
     >
       {bars.map((_, i) => (
         <motion.div
@@ -54,18 +42,9 @@ const MusicPulseAnimation: React.FC = () => {
           custom={i}
           variants={barVariants}
           animate="animate"
-          style={{
-            width: '12px',
-            height: '60px',
-            backgroundColor: '#ffffff',
-            borderRadius: '6px',
-            opacity: 0.8
-          }}
+          className="w-3 h-20 bg-white rounded-md opacity-80 shadow-lg"
         />
       ))}
-      
-      {/* Add a music note icon in the center */}
-     
     </motion.div>
   );
 };

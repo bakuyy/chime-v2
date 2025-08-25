@@ -34,14 +34,15 @@ const Share: React.FC = () => {
   };
 
   return (
-    <div className=''>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 pt-24">
         <ProtectedNavbar/>
         <motion.div
+            className="max-w-4xl mx-auto p-6"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
         >
-            <motion.div variants={formVariants}>
+            <motion.div variants={formVariants} className="flex justify-center">
                 <SongUploadForm/>
             </motion.div>
         </motion.div>
