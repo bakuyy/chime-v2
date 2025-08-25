@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import "../../styling/SongLoad.css";
-import Like from "../../assets/images/Like.png";
-import Dislike from "../../assets/images/Dislike.png";
+import { motion, AnimatePresence } from 'framer-motion';
+import { IoHeartOutline, IoHeartDislikeOutline } from 'react-icons/io5';
+import { BsMusicNoteBeamed } from 'react-icons/bs';
 import { ACCESS_TOKEN } from '../../constants';
-
 
 const SongLoad: React.FC = () => {
   const [songs, setSongs] = useState<any[]>([]);
@@ -35,31 +35,35 @@ const SongLoad: React.FC = () => {
     const currentSong = songs[currentSongIndex];
 
     const interactionData = {
-        song_id: currentSong.id,  
-        artist_name: currentSong.artist_name,
-        genre: currentSong.genre,
-        interaction_type: type
-      };
-      
+      song_id: currentSong.id,
+      artist_name: currentSong.artist_name,
+      genre: currentSong.genre,
+      interaction_type: type
+    };
 
     try {
-        const token = getAuthToken(); 
-        if (!token) {
-          return;
-        }
+      const token = getAuthToken();
+      if (!token) {
+        return;
+      }
       const response = await fetch('http://127.0.0.1:8000/recommender/interactions/', {
         method: 'POST',
         headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(interactionData),
       });
 
       if (response.ok) {
         console.log(`${type} interaction recorded successfully.`);
         setInteraction(type);
-        nextSong();
+        
+        // Animate out current song
+        setTimeout(() => {
+          nextSong();
+          setInteraction(null);
+        }, 500);
       } else {
         console.error('Failed to record interaction:', response.statusText);
       }
@@ -69,42 +73,86 @@ const SongLoad: React.FC = () => {
   };
 
   if (songs.length === 0) {
-    return <div>Loading songs...</div>;
+    return (
+      <div className="loading-container">
+        <BsMusicNoteBeamed className="loading-icon" />
+        <p>Loading songs...</p>
+      </div>
+    );
   }
 
   const currentSong = songs[currentSongIndex];
 
   return (
-    <div className="song-container">
-      <div className="song-details">
-        <div className='song-title'>{currentSong.song_name}</div>
-        <div className='song-artist'>{currentSong.artist_name}</div>
-        <div className='song-hashtags'>{currentSong.genre.join(' ')}</div>
-        <div className='song-hashtags'>{currentSong.hashtags.join(' ')}</div>
+    <AnimatePresence mode="wait">
+      <motion.div 
+        className="song-container"
+        key={currentSongIndex}
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -50 }}
+        transition={{ duration: 0.3 }}
+      >
+        <div className="song-card">
+          <div className="song-details">
+            <motion.h1 
+              className="song-title"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              {currentSong.song_name}
+            </motion.h1>
+            <motion.h2 
+              className="song-artist"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              {currentSong.artist_name}
+            </motion.h2>
+            
+            <motion.div 
+              className="song-tags"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+            >
+              {currentSong.genre.map((genre: string, index: number) => (
+                <span key={index} className="tag genre-tag">{genre}</span>
+              ))}
+              {currentSong.hashtags.map((tag: string, index: number) => (
+                <span key={index} className="tag hashtag-tag">#{tag}</span>
+              ))}
+            </motion.div>
+          </div>
 
-        <audio
-          key={currentSongIndex}
-          src={`http://127.0.0.1:8000${currentSong.audio_file}`}
-          controls
-          className='audio'
-        />
-      </div>
-
-      <div>
-        <button
-          className="song-button"
-          onClick={() => handleInteraction('like')}
-        >
-          <img className="button-img" src={Like} alt="Like" />
-        </button>
-        <button
-          className="song-button"
-          onClick={() => handleInteraction('dislike')}
-        >
-          <img className="button-img" src={Dislike} alt="Dislike" />
-        </button>
-      </div>
-    </div>
+          <motion.div 
+            className="interaction-buttons"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+          >
+            <motion.button
+              className={`interaction-button dislike-button ${interaction === 'dislike' ? 'active' : ''}`}
+              onClick={() => handleInteraction('dislike')}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <IoHeartDislikeOutline />
+            </motion.button>
+            <motion.button
+              className={`interaction-button like-button ${interaction === 'like' ? 'active' : ''}`}
+              onClick={() => handleInteraction('like')}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <IoHeartOutline />
+            </motion.button>
+          </motion.div>
+        </div>
+      </motion.div>
+    </AnimatePresence>
   );
 };
 

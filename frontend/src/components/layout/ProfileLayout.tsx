@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import "../../styling/ProfileLayout.css";
+import { motion, AnimatePresence } from 'framer-motion';
+import { IoAddCircleOutline, IoSaveOutline } from 'react-icons/io5';
 import { ACCESS_TOKEN } from '../../constants';
 
 interface Profile {
@@ -16,8 +18,8 @@ const ProfileLayout: React.FC = () => {
   const [username, setUsername] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
 
-  // Retrieve the JWT token from localStorage
   const getAuthToken = () => localStorage.getItem(ACCESS_TOKEN);
 
   useEffect(() => {
@@ -26,7 +28,7 @@ const ProfileLayout: React.FC = () => {
       setError(null);
   
       try {
-        const token = getAuthToken(); // Get the token from localStorage
+        const token = getAuthToken();
         if (!token) {
           setError('Authorization token not found.');
           setLoading(false);
@@ -46,11 +48,11 @@ const ProfileLayout: React.FC = () => {
         }
   
         const data = await response.json();
-        console.log("API Response Data:", data); 
+        console.log("API Response Data:", data);
   
         const { username, preferred_genres } = data;
   
-        setUsername(username); 
+        setUsername(username);
         setProfileData({
           preferredGenres: Array.isArray(preferred_genres) ? preferred_genres : [],
         });
@@ -63,12 +65,6 @@ const ProfileLayout: React.FC = () => {
   
     fetchProfileAndUsername();
   }, []);
-  
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setProfileData((prev) => ({ ...prev, [name]: value }));
-  };
 
   const handleGenreChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGenreInput(e.target.value);
@@ -82,19 +78,27 @@ const ProfileLayout: React.FC = () => {
 
     setProfileData((prev) => ({
       ...prev,
-      preferredGenres: [...prev.preferredGenres, ...newGenres],
+      preferredGenres: [...new Set([...prev.preferredGenres, ...newGenres])],
     }));
 
     setGenreInput('');
   };
 
-  // Save the profile (PUT request to update the profile)
+  const handleRemoveGenre = (genreToRemove: string) => {
+    setProfileData((prev) => ({
+      ...prev,
+      preferredGenres: prev.preferredGenres.filter(genre => genre !== genreToRemove),
+    }));
+  };
+
   const handleSave = async () => {
     const token = getAuthToken();
     if (!token) {
       setError('Authorization token not found.');
       return;
     }
+
+    setSaveStatus('saving');
 
     try {
       const response = await fetch('http://127.0.0.1:8000/auth-app/user-profile/', {
@@ -104,67 +108,122 @@ const ProfileLayout: React.FC = () => {
           'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(profileData),
-      })
+      });
 
       if (!response.ok) {
         const textResponse = await response.text();
         throw new Error(`Error saving the profile: ${textResponse}`);
       }
 
-      const textResponse = await response.text();
-      console.log('Raw Response Text:', textResponse);
-      alert('Profile saved successfully!');
+      setSaveStatus('success');
+      setTimeout(() => setSaveStatus('idle'), 2000);
     } catch (error) {
       setError(error instanceof Error ? error.message : 'Unknown error');
+      setSaveStatus('error');
+      setTimeout(() => setSaveStatus('idle'), 2000);
     }
-  }
+  };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="profile-loading">
+        <div className="loading-spinner"></div>
+        <p>Loading your profile...</p>
+      </div>
+    );
   }
 
   return (
-    <div className="profile-layout">
-      <div className="profile-form">
-        <div className="form-group">
-          <label  htmlFor="username"><div className="username">{username}</div></label>
-        </div>
+    <motion.div 
+      className="profile-layout"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <motion.div 
+        className="profile-card"
+        initial={{ y: 20 }}
+        animate={{ y: 0 }}
+        transition={{ delay: 0.2 }}
+      >
+        <motion.div 
+          className="profile-header"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+        >
+          <h1 className="username">{username}</h1>
+          {error && <p className="error-message">{error}</p>}
+        </motion.div>
 
-
-
-        <div className="form-group">
-          <label htmlFor="preferredGenres">Genres</label>
-          <input
-            type="text"
-            id="preferredGenres"
-            value={genreInput}
-            onChange={handleGenreChange}
-            className="input-field"
-            placeholder="+"
-          />
-          <button
-            onClick={handleAddGenres}
-            className="add-genre-button"
-            disabled={genreInput.trim() === ''}
-          >
-            Add Genres
-          </button>
-          <div className="genres-list">
-            {profileData.preferredGenres.length > 0 && (
-              <ul>
-                {profileData.preferredGenres.map((genre, index) => (
-                  <div className="genre" key={index}>{genre}</div>
-                ))}
-              </ul>
-            )}
+        <motion.div 
+          className="genre-section"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4 }}
+        >
+          <h2>Add Music Preferences</h2>
+          <div className="genre-input-container">
+            <input
+              type="text"
+              value={genreInput}
+              onChange={handleGenreChange}
+              className="genre-input"
+              placeholder="Add genres (comma-separated)"
+            />
+            <motion.button
+              className="add-genre-button"
+              onClick={handleAddGenres}
+              disabled={genreInput.trim() === ''}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <IoAddCircleOutline />
+            </motion.button>
           </div>
-        </div>
 
-        <button onClick={handleSave} className="save-button">
-          Save
-        </button>
-      </div>
-    </div>
+          <motion.div 
+            className="genres-grid"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+          >
+            <AnimatePresence>
+              {profileData.preferredGenres.map((genre, index) => (
+                <motion.div
+                  key={genre}
+                  className="genre-tag"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  whileHover={{ scale: 1.05 }}
+                  onClick={() => handleRemoveGenre(genre)}
+                >
+                  {genre}
+                  <span className="remove-genre">×</span>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
+        </motion.div>
+
+        <motion.button
+          className={`save-button ${saveStatus}`}
+          onClick={handleSave}
+          disabled={saveStatus === 'saving'}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6 }}
+        >
+          <IoSaveOutline />
+          {saveStatus === 'saving' ? 'Saving...' : 
+           saveStatus === 'success' ? 'Saved!' : 
+           saveStatus === 'error' ? 'Error!' : 'Save Changes'}
+        </motion.button>
+      </motion.div>
+    </motion.div>
   );
 };
 

@@ -20,7 +20,7 @@ const ProtectedNavbar: React.FC = () => {
   const links: NavItem[]= [
     { title: "swipe", link: "/chime" },
     { title: "profile", link: "/profile" },
-    { title: "share", link: "/share" },
+    { title: "upload", link: "/upload" },
 
   ]
 

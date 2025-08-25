@@ -2,17 +2,16 @@
 
 .navbar-links {
     display: flex;
-    justify-content: flex-end; 
+    justify-content: center; 
     align-items: center;
-    position: fixed; 
-    width: calc(100% - 3vw); 
-    top: 0;
-    right:0;
-    margin-right: 5vw;
-    margin-top: 4vw; 
-    padding-right: 3vw; 
+    position: fixed;
+    width: 100%; 
+    top: 40px;
+    left: 0;
+    padding: 20px 40px; 
     z-index: 1000; 
-    gap: 3vw;
+    gap: 30px;
+    backdrop-filter: blur(10px);
 }
 
 .navbar-link {
@@ -20,26 +19,27 @@
     text-decoration: none;
     font-size: 1.4rem;
     transition: color 0.3s;
+    font-weight: 500;
 }
 
 .navbar-link:hover {
     color: #D3B4BB;
 }
 
-
 .logout-button {
-    margin-left: 1vw;
+    margin-left: 10px;
     padding: 8px 15px;
     background-color: transparent;
-    color:#3A0C00;
+    color: #3A0C00;
     border: 2px solid #3A0C00;
     border-radius: 20px;
     font-size: 1.2rem;
-
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .logout-button:hover {
-    background-color:white ;
+    background-color: #3A0C00;
+    color: white;
     border: 2px solid #3A0C00;
-    
 }

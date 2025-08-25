@@ -22,7 +22,7 @@ function App() {
             }
           />
                 <Route 
-            path="/share"
+            path="/upload"
             element={
               <ProtectedRoute>
                 <Share />

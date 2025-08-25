@@ -2,6 +2,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from collections import defaultdict
 from auth_app.models import UserProfile
 from .models import UserInteraction
+from music_app.models import Song
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
@@ -163,3 +164,56 @@ class Recommender:
                 # combined score formula normalizes both scores to [0,1] range and multiplies them
             })        
         return result_songs, result_scores
+
+def get_recommendations(user, num_recommendations=5):
+    """
+    Generate personalized song recommendations for a user based on their interaction history.
+    
+    Args:
+        user: The user to generate recommendations for
+        num_recommendations: Number of recommendations to return
+        
+    Returns:
+        List of recommended Song objects
+    """
+    # Get user's interaction history
+    user_interactions = UserInteraction.objects.filter(user=user)
+    
+    if not user_interactions.exists():
+        # If no interactions, return popular songs
+        return Song.objects.order_by('-created_at')[:num_recommendations]
+    
+    # Convert interactions to DataFrame
+    interactions_data = []
+    for interaction in user_interactions:
+        interactions_data.append({
+            'song_id': interaction.song_id.id,
+            'interaction': 1 if interaction.interaction_type == 'like' else -1,
+            'genres': interaction.genre,
+            'listen_count': 1
+        })
+    
+    df = pd.DataFrame(interactions_data)
+    
+    # Initialize recommender
+    recommender = Recommender(df)
+    
+    # Get user's most liked song
+    liked_songs = df[df['interaction'] == 1]['song_id'].values
+    if len(liked_songs) == 0:
+        # If no liked songs, use most recent interaction
+        target_song_id = df.iloc[-1]['song_id']
+    else:
+        # Use most liked song as target
+        target_song_id = liked_songs[0]
+    
+    # Get similar songs
+    similar_song_ids, _ = recommender.get_similar_songs(
+        target_song_id,
+        top_n=num_recommendations
+    )
+    
+    # Get Song objects for the recommended IDs
+    recommended_songs = Song.objects.filter(id__in=similar_song_ids)
+    
+    return recommended_songs
