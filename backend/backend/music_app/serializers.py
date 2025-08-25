@@ -9,10 +9,11 @@ class HashtagSerializer(serializers.ModelSerializer):
         fields = ["tag"]
 
 class SongSerializer(serializers.ModelSerializer):
+    audio_file_url = serializers.SerializerMethodField()
     hashtags = HashtagSerializer(many=True)
     class Meta:
         model = Song
-        fields = ["song_name", "artist_name","genre", "hashtags", "audio_file"]
+        fields = ["id", "song_name", "artist_name", "genre", "hashtags", "audio_file", "audio_file_url"]
         # or fields=["__all__"]
 
         def create(self, validated_data):
@@ -25,9 +26,11 @@ class SongSerializer(serializers.ModelSerializer):
                 song.hashtags.add(hashtag)
 
             return song
-        def get_audio_file(self, obj):
-        # Return the full URL to the audio file
-            return settings.MEDIA_URL + 'songs/' + obj.audio_file.name.split('songs/')[1]
+        def get_audio_file_url(self, obj):
+            if obj.audio_file:
+                # For S3, return the full URL
+                return obj.audio_file.url
+            return None
 
 
 
