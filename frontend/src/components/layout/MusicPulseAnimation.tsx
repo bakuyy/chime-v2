@@ -31,7 +31,7 @@ const MusicPulseAnimation: React.FC = () => {
 
   return (
     <motion.div
-      className="flex items-center justify-center gap-2 p-10 bg-gradient-to-br from-blue-500 via-blue-600 to-purple-600 rounded-3xl shadow-2xl min-h-[200px] min-w-[300px] overflow-hidden relative"
+      className="flex items-center justify-center gap-2 p-10 rounded-3xl min-h-[200px] min-w-[300px] overflow-hidden relative"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
@@ -42,7 +42,7 @@ const MusicPulseAnimation: React.FC = () => {
           custom={i}
           variants={barVariants}
           animate="animate"
-          className="w-3 h-20 bg-white rounded-md opacity-80 shadow-lg"
+          className="w-3 h-20 bg-white rounded-md opacity-80"
         />
       ))}
     </motion.div>

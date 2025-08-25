@@ -54,11 +54,11 @@ const ProfileLayout: React.FC = () => {
   };
 
   return (
-    <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
+    <div className="bg-white/90 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
       <div className="flex items-center justify-between mb-8">
         <h2 className="text-3xl font-bold text-gray-900">My Playlists</h2>
         <motion.button
-          className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg font-medium hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+          className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-lg font-medium hover:from-pink-600 hover:to-purple-700 transition-all duration-200 transform hover:-translate-y-0.5"
           onClick={() => setShowAddForm(true)}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -71,7 +71,7 @@ const ProfileLayout: React.FC = () => {
       <AnimatePresence>
         {showAddForm && (
           <motion.div
-            className="mb-6 p-6 bg-gray-50 rounded-xl border border-gray-200"
+            className="mb-6 p-6 bg-gray-50/80 backdrop-blur-sm rounded-xl border border-gray-200/50"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
@@ -82,7 +82,7 @@ const ProfileLayout: React.FC = () => {
                 value={newPlaylistName}
                 onChange={(e) => setNewPlaylistName(e.target.value)}
                 placeholder="Enter playlist name"
-                className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200"
               />
               <button
                 className="px-6 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-all duration-200"
@@ -108,7 +108,7 @@ const ProfileLayout: React.FC = () => {
         {playlists.map((playlist) => (
           <motion.div
             key={playlist.id}
-            className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 border border-gray-200 hover:shadow-lg transition-all duration-300"
+            className="bg-gradient-to-br from-gray-50/80 to-gray-100/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 hover:border-pink-300/50 transition-all duration-300"
             whileHover={{ y: -5 }}
             layout
           >
@@ -119,7 +119,7 @@ const ProfileLayout: React.FC = () => {
                     type="text"
                     value={newPlaylistName}
                     onChange={(e) => setNewPlaylistName(e.target.value)}
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                   />
                   <button
                     className="px-4 py-2 bg-green-600 text-white rounded-lg text-sm hover:bg-green-700 transition-all duration-200"
@@ -133,7 +133,7 @@ const ProfileLayout: React.FC = () => {
                   <h3 className="text-xl font-semibold text-gray-900">{playlist.name}</h3>
                   <div className="flex gap-2">
                     <button
-                      className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                      className="p-2 text-pink-600 hover:bg-pink-50 rounded-lg transition-all duration-200"
                       onClick={() => handleEditPlaylist(playlist.id)}
                     >
                       Edit
@@ -155,7 +155,7 @@ const ProfileLayout: React.FC = () => {
               </p>
               <div className="max-h-32 overflow-y-auto">
                 {playlist.songs.map((song, index) => (
-                  <div key={index} className="text-sm text-gray-700 py-1 px-2 bg-white rounded-lg">
+                  <div key={index} className="text-sm text-gray-700 py-1 px-2 bg-white/60 backdrop-blur-sm rounded-lg">
                     {song}
                   </div>
                 ))}

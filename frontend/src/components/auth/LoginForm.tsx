@@ -105,7 +105,7 @@ const LoginForm: React.FC<FormProps> = ({ route, method }) => {
                 variants={itemVariants}
             >
                 <motion.input
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-500"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-500"
                     type="text"
                     name="name"
                     placeholder='Username'
@@ -117,7 +117,7 @@ const LoginForm: React.FC<FormProps> = ({ route, method }) => {
                     }}
                 />
                 <motion.input
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-500"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-500"
                     type="password"
                     name="password"
                     placeholder='Password'
@@ -129,7 +129,7 @@ const LoginForm: React.FC<FormProps> = ({ route, method }) => {
                     }}
                 />
                 <motion.button
-                    className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-lg font-medium hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white py-3 rounded-lg font-medium hover:from-pink-600 hover:to-purple-700 transition-all duration-200 transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
                     type="submit"
                     disabled={loading}
                     variants={buttonVariants}
@@ -148,12 +148,12 @@ const LoginForm: React.FC<FormProps> = ({ route, method }) => {
                     <div className="w-full border-t border-gray-300"></div>
                 </div>
                 <div className="relative flex justify-center text-sm">
-                    <span className="px-2 bg-white text-gray-500">Or continue with</span>
+                    <span className="px-2 bg-pink-100 text-gray-500">Or continue with</span>
                 </div>
             </motion.div>
             
             <motion.button
-                className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition-all duration-200"
+                className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-pink-50 transition-all duration-200"
                 variants={itemVariants}
                 whileHover="hover"
                 whileTap="tap"

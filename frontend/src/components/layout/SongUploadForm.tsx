@@ -21,7 +21,7 @@ const SongUploadForm = () => {
   };
 
   return (
-    <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100 max-w-2xl w-full">
+    <div className="bg-white/90 backdrop-blur-sm rounded-3xl p-8 border border-white/20 max-w-2xl w-full">
       <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Share Your Music</h2>
       
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -33,7 +33,7 @@ const SongUploadForm = () => {
             type="file"
             accept="audio/*"
             onChange={handleFileChange}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200"
             required
           />
         </div>
@@ -46,7 +46,7 @@ const SongUploadForm = () => {
             type="text"
             value={songName}
             onChange={(e) => setSongName(e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200"
             placeholder="Enter song name"
             required
           />
@@ -60,7 +60,7 @@ const SongUploadForm = () => {
             type="text"
             value={artistName}
             onChange={(e) => setArtistName(e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200"
             placeholder="Enter artist name"
             required
           />
@@ -74,7 +74,7 @@ const SongUploadForm = () => {
             type="text"
             value={genre}
             onChange={(e) => setGenre(e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200"
             placeholder="Enter genre"
             required
           />
@@ -88,14 +88,14 @@ const SongUploadForm = () => {
             type="text"
             value={hashtags}
             onChange={(e) => setHashtags(e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200"
             placeholder="Enter hashtags (comma separated)"
           />
         </div>
 
         <button
           type="submit"
-          className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-lg font-medium hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center justify-center gap-2"
+          className="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white py-3 rounded-lg font-medium hover:from-pink-600 hover:to-purple-700 transition-all duration-200 transform hover:-translate-y-0.5 flex items-center justify-center gap-2"
         >
           <span>Upload Song</span>
           <FaArrowRightLong />

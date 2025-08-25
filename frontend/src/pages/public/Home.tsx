@@ -57,10 +57,15 @@ const Home: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-pink-100">
+        <div className="min-h-screen bg-gradient-to-br from-pink-100 via-pink-50 to-pink-200 relative overflow-hidden">
+            {/* Enhanced background elements */}
+            <div className="absolute inset-0 bg-gradient-to-br from-pink-300/20 via-transparent to-purple-300/20"></div>
+            <div className="absolute top-20 left-20 w-72 h-72 bg-pink-300/30 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-20 right-20 w-96 h-96 bg-purple-300/20 rounded-full blur-3xl"></div>
+            
             <PublicNavbar/>
             <motion.div 
-                className="container mx-auto px-6 py-20 flex items-center justify-between min-h-screen"
+                className="container mx-auto px-6 py-20 flex items-center justify-between min-h-screen relative z-10"
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
@@ -77,7 +82,7 @@ const Home: React.FC = () => {
                         variants={itemVariants}
                     >
                         the <motion.span 
-                            className="inline-block text-purple-500"
+                            className="inline-block text-pink-500"
                             animate={{ rotate: [0, 10, -10, 0] }}
                             transition={{ 
                                 duration: 2, 
@@ -93,7 +98,7 @@ const Home: React.FC = () => {
                         a tinder-like experience on your music
                     </motion.p>
                     <motion.button 
-                        className="text-xl text-purple-600 font-semibold hover:text-purple-700 transition-colors duration-200 cursor-pointer"
+                        className="text-xl bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold px-8 py-4 rounded-full hover:from-pink-600 hover:to-purple-700 transition-all duration-300 cursor-pointer transform hover:scale-105"
                         onClick={handleClick}
                         variants={itemVariants}
                         whileHover={{ scale: 1.05 }}

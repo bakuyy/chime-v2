@@ -78,7 +78,7 @@ const ProtectedNavbar: React.FC = () => {
 
   return (
       <motion.div 
-        className="flex justify-center items-center fixed top-0 left-0 w-full p-5 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100"
+        className="flex justify-center items-center fixed top-0 left-0 w-full p-5 z-50 bg-white/95 backdrop-blur-md border-b border-pink-100"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -95,7 +95,7 @@ const ProtectedNavbar: React.FC = () => {
             >
               <Link
                 to={link}
-                className="text-lg font-medium text-gray-800 hover:text-purple-600 transition-colors duration-200 px-6 py-3 rounded-lg hover:bg-gray-50 mx-2"
+                className="text-lg font-medium text-gray-800 hover:text-pink-600 transition-colors duration-200 px-6 py-3 rounded-lg hover:bg-pink-50 mx-2"
                 onClick={handleClick}
               >
                 {title}
@@ -106,7 +106,7 @@ const ProtectedNavbar: React.FC = () => {
 
         <motion.div variants={itemVariants}>
         <motion.button 
-            className="ml-4 px-6 py-3 bg-transparent text-gray-800 border-2 border-gray-800 rounded-full text-lg font-medium hover:bg-gray-800 hover:text-white transition-all duration-300 cursor-pointer"
+            className="ml-4 px-6 py-3 bg-transparent text-gray-800 border-2 border-pink-500 rounded-full text-lg font-medium hover:bg-pink-500 hover:text-white transition-all duration-300 cursor-pointer"
             onClick={handleLogout}
             variants={buttonVariants}
             whileHover="hover"
